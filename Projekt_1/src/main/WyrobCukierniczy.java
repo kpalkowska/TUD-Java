@@ -1,24 +1,24 @@
 package TUD;
 
-public class Wyrob_cukierniczy {
-	private long id;
+public class WyrobCukierniczy {
+	private long id_wyrob;
 	private String nazwa;
 	private double cena;
 	
-	public Wyrob_cukierniczy() {}
+	public WyrobCukierniczy() {}
 	
-	public Wyrob_cukierniczy(String nazwa, double cena){
+	public WyrobCukierniczy(String nazwa, double cena){
 		super();
 		this.nazwa = nazwa;
 		this.cena = cena;
 	}
 	
 	public long getId(){
-		return id;
+		return id_wyrob;
 	}
 	
-	public void setId(long id){
-		this.id = id;
+	public void setId(long id_wyrob){
+		this.id_wyrob = id_wyrob;
 	}
 
 	public String getNazwa() {

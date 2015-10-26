@@ -3,7 +3,7 @@ package TUD;
 import java.util.Date;
 
 public class Zamowienie {
-	private long id;
+	private long id_zamowienie;
 	private double waga;
 	private Date data;
 	
@@ -16,11 +16,11 @@ public class Zamowienie {
 	}
 
 	public long getId() {
-		return id;
+		return id_zamowienie;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public void setId(long id_zamowienie) {
+		this.id_zamowienie = id_zamowienie;
 	}
 
 	public double getWaga() {
