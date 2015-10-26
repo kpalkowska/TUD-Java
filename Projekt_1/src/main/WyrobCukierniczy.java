@@ -1,4 +1,4 @@
-package TUD;
+package main;
 
 public class WyrobCukierniczy {
 	private long id_wyrob;

@@ -1,4 +1,4 @@
-package TUD;
+package main;
 
 public class ZamowienieWyrobow {
 		private long zamowienie_id_zamowienie;

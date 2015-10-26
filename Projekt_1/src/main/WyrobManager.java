@@ -1,4 +1,4 @@
-package TUD;
+package main;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
