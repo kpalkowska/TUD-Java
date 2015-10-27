@@ -49,11 +49,11 @@ public class ZamowienieManager {
 		}
 	}
 	
-	Connection getConnection(){
+	public Connection getConnection(){
 		return connection;
 	}
 	
-	void wyczyscZamowienia(){
+	public void wyczyscZamowienia(){
 		try{
 			UsunZamowienie.executeUpdate();
 		} catch(SQLException e){

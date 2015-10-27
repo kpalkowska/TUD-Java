@@ -47,11 +47,11 @@ public class WyrobManager {
 		}
 	}
 	
-	Connection getConnection(){
+	public Connection getConnection(){
 		return connection;
 	}
 	
-	void wyczyscWyroby(){
+	public void wyczyscWyroby(){
 		try{
 			UsunWyroby.executeUpdate();
 		} catch(SQLException e){
