@@ -4,6 +4,14 @@ public class ZamowienieWyrobow {
 		private long zamowienie_id_zamowienie;
 		private long wyrob_id_wyrob;
 		
+		public ZamowienieWyrobow(){}
+		
+		public ZamowienieWyrobow(long zamowienie_id_zamowienie, long wyrob_id_wyrob){
+			super();
+			Zamowienie.id_zamowienie = zamowienie_id_zamowienie;
+			WyrobCukierniczy.id_wyrob = wyrob_id_wyrob;
+		}
+		
 		public long getWyrob_id_wyrob() {
 			return wyrob_id_wyrob;
 		}

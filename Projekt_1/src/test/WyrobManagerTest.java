@@ -1,11 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import java.util.List;
-
 import org.junit.Test;
-
 import main.WyrobCukierniczy;
 import main.WyrobManager;
 
@@ -13,7 +10,7 @@ public class WyrobManagerTest {
 	WyrobManager wyrobManager = new WyrobManager();
 	
 	private final static String nazwa_1 = "piernik";
-	private final static double cena_1 = 15.0;
+	private final static String cena_1 = "15.0";
 	
 	@Test
 	public void checkConnection(){
@@ -31,6 +28,6 @@ public class WyrobManagerTest {
 		WyrobCukierniczy wyrobPrzetwarzany = wyroby.get(0);
 		
 		assertEquals(nazwa_1, wyrobPrzetwarzany.getNazwa());
-		//assertEquals(cena_1, wyrobPrzetwarzany.getCena());
+		assertEquals(cena_1, wyrobPrzetwarzany.getCena());
 	}
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class ZamowienieWyrobowManager {
 	private static Connection connection;
 	private String url = "jdbc:hsqldb:hsql://localhost/workdb";
-	private String createTableZamowienieWyrobow = "CREATE TABLE ZamowienieWyrobow(Zamowienie_id_zamowienie, Wybor_id_wybor)";
+	private String createTableZamowienieWyrobow = "CREATE TABLE ZamowienieWyrobow(int Zamowienie_id_zamowienie, int Wyrob_id_wyrob, INDEX(id_zamowienie, id_wyrob)";
 
 	
 	private static PreparedStatement DodajZamowienieWyrobow;
@@ -52,7 +52,7 @@ public class ZamowienieWyrobowManager {
 		return connection;
 	}
 	
-	public static void wyczyscZamowienia(){
+	public static void wyczyscZamowieniaWyrobow(){
 		try{
 			UsunZamowienieWyrobow.executeUpdate();
 		} catch(SQLException e){

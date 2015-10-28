@@ -1,13 +1,13 @@
 package main;
 
 public class WyrobCukierniczy {
-	private long id_wyrob;
+	static long id_wyrob;
 	private String nazwa;
-	private double cena;
+	private String cena;
 	
 	public WyrobCukierniczy() {}
 	
-	public WyrobCukierniczy(String nazwa, double cena){
+	public WyrobCukierniczy(String nazwa, String cena){
 		super();
 		this.nazwa = nazwa;
 		this.cena = cena;
@@ -29,11 +29,11 @@ public class WyrobCukierniczy {
 		this.nazwa = nazwa;
 	}
 
-	public double getCena() {
+	public String getCena() {
 		return cena;
 	}
 
-	public void setCena(double cena) {
+	public void setCena(String cena) {
 		this.cena = cena;
 	}
 	

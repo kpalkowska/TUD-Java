@@ -1,15 +1,13 @@
 package main;
 
-import java.util.Date;
-
 public class Zamowienie {
-	private long id_zamowienie;
-	private double waga;
-	private Date data;
+	static long id_zamowienie;
+	private String waga;
+	private String data;
 	
 	public Zamowienie(){}
 	
-	public Zamowienie(double waga, Date data){
+	public Zamowienie(String waga, String data){
 		super();
 		this.waga = waga;
 		this.data = data;
@@ -23,19 +21,19 @@ public class Zamowienie {
 		this.id_zamowienie = id_zamowienie;
 	}
 
-	public double getWaga() {
+	public String getWaga() {
 		return waga;
 	}
 
-	public void setWaga(double waga) {
+	public void setWaga(String waga) {
 		this.waga = waga;
 	}
 
-	public Date getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(Date data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 	
