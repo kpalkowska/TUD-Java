@@ -13,11 +13,13 @@ import java.util.List;
 public class ZamWyrobowManager {
 	private static Connection connection;
 	private String url = "jdbc:hsqldb:hsql://localhost/workdb";
-	private String createTableZamWyrobow = "CREATE TABLE ZamWyrobow(zamowienie_id bigint, wyrob_id bigint, dodatkoweInfo varchar(100), CONSTRAINT fk1 FOREIGN KEY(zamowienie_id) REFERENCES Zamowienie(id_zamowienie), CONSTRAINT fk2 FOREIGN KEY(wyrob_id) REFERENCES WyrobCukierniczy(id_wyrob))";
+	private String createTableZamWyrobow = "CREATE TABLE ZamWyrobow(zamowienie_id bigint, wyrob_id bigint)";
 	
 	private static PreparedStatement DodajZamWyrobow;
 	private static PreparedStatement UsunZamWyrobow;
 	private static PreparedStatement GetZamWyrobow;
+	private static PreparedStatement GetWyrobById;
+	private static PreparedStatement GetWyrobByZam;
 	
 	private Statement statement;
 	
@@ -39,9 +41,10 @@ public class ZamWyrobowManager {
 			if(!tableExists)
 				statement.executeUpdate(createTableZamWyrobow);
 			
-			DodajZamWyrobow = connection.prepareStatement("INSERT INTO ZamWyrobow(zamowienie_id, wyrob_id, dodatkoweInfo) VALUES (?, ?, ?)");
+			DodajZamWyrobow = connection.prepareStatement("INSERT INTO ZamWyrobow(zamowienie_id, wyrob_id) VALUES (?, ?)");
 			UsunZamWyrobow = connection.prepareStatement("DELETE FROM ZamWyrobow");
-			GetZamWyrobow = connection.prepareStatement("SELECT zamowienie_id, wyrob_id, dodatkoweInfo FROM ZamowienieWyrobow");
+			GetZamWyrobow = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow");
+			GetWyrobById = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow WHERE wyrob_id = ?");
 			
 		} catch(SQLException e){
 			e.printStackTrace();
@@ -60,12 +63,11 @@ public class ZamWyrobowManager {
 		}
 	}
 	
-	public static int dodajZamWyrobow(ZamWyrobow zw){
+	public static int dodajZamWyrobow(WyrobCukierniczy w, Zamowienie z){
 		int count = 0;
 		try {
-			DodajZamWyrobow.setLong(1, zw.getZamowienie_id());
-			DodajZamWyrobow.setLong(2, zw.getWyrob_id());
-			DodajZamWyrobow.setString(3, zw.getDodatkoweInfo());
+			DodajZamWyrobow.setLong(1, z.getId());
+			DodajZamWyrobow.setLong(2, w.getId());
 			
 			count = DodajZamWyrobow.executeUpdate();
 		} catch(SQLException e){
@@ -84,12 +86,49 @@ public class ZamWyrobowManager {
 				ZamWyrobow zw = new ZamWyrobow();
 				zw.setZamowienie_id(rs.getInt("zamowienie_id"));
 				zw.setWyrob_id(rs.getInt("wyrob_id"));
-				zw.setDodatkoweInfo(rs.getString("dodatkoweInfo"));
 				zamWyrobow.add(zw);
 			}
 		} catch(SQLException e){
 			e.printStackTrace();
 		}
 		return zamWyrobow;
+	}
+	
+	public WyrobCukierniczy getWyrobById(WyrobCukierniczy w) {
+		WyrobCukierniczy wyrob = new WyrobCukierniczy();
+		try {
+			GetWyrobById.setLong(1, w.getId());
+			ResultSet rs = GetWyrobById.executeQuery();
+			rs.next();
+			wyrob.setId(rs.getInt("id_wyrob"));
+			wyrob.setNazwa(rs.getString("nazwa"));
+			wyrob.setCena(rs.getDouble("cena"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return wyrob;
+	}
+	
+	public List<WyrobCukierniczy> getWyrobByZam(ZamWyrobow z) {
+		List<WyrobCukierniczy> wyroby = new ArrayList<WyrobCukierniczy>();
+
+		try {
+
+			GetWyrobByZam.setLong(1, z.getZamowienie_id());
+
+			ResultSet rs = GetWyrobByZam.executeQuery();
+
+			while (rs.next()) {
+				WyrobCukierniczy w = new WyrobCukierniczy();
+				w.setId(rs.getInt("id_wyrob"));
+				w.setNazwa(rs.getString("nazwa"));
+				w.setCena(rs.getDouble("cena"));
+				wyroby.add(w);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return wyroby;
 	}
 }

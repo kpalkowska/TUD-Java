@@ -10,7 +10,7 @@ WyrobManager wyrobManager = new WyrobManager();
 	
 	private final static String nazwa_1 = "piernik";
 	private final static double cena_1 = 8.99;
-	private final static String nowa_nazwa = "p¹czek";
+	private final static String nowa_nazwa = "sernik";
 	private final static double nowa_cena = 0.89;
 	
 	private static final double DELTA = 1e-15;
