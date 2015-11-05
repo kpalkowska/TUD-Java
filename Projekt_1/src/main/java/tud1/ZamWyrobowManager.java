@@ -17,9 +17,11 @@ public class ZamWyrobowManager {
 	
 	private static PreparedStatement DodajZamWyrobow;
 	private static PreparedStatement UsunZamWyrobow;
+	private static PreparedStatement WyczyscZamWyrobow;
 	private static PreparedStatement GetZamWyrobow;
-	private static PreparedStatement GetWyrobById;
-	private static PreparedStatement GetWyrobByZam;
+	private static PreparedStatement GetZWByWyrob;
+	private static PreparedStatement GetZWByZam;
+	private static PreparedStatement UpdateZamWyrobow;
 	
 	private Statement statement;
 	
@@ -42,9 +44,12 @@ public class ZamWyrobowManager {
 				statement.executeUpdate(createTableZamWyrobow);
 			
 			DodajZamWyrobow = connection.prepareStatement("INSERT INTO ZamWyrobow(zamowienie_id, wyrob_id) VALUES (?, ?)");
-			UsunZamWyrobow = connection.prepareStatement("DELETE FROM ZamWyrobow");
+			UsunZamWyrobow = connection.prepareStatement("DELETE FROM ZamWyrobow WHERE zamowienie_id=?");
+			WyczyscZamWyrobow = connection.prepareStatement("DELETE FROM ZamWyrobow");
 			GetZamWyrobow = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow");
-			GetWyrobById = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow WHERE wyrob_id = ?");
+			GetZWByWyrob = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow WHERE wyrob_id = ?");
+			GetZWByZam = connection.prepareStatement("SELECT zamowienie_id, wyrob_id FROM ZamWyrobow WHERE zamowienie_id = ?");
+			UpdateZamWyrobow = connection.prepareStatement("UPDATE ZamWyrobow SET wyrob_id = ? WHERE zamowienie_id = ?");
 			
 		} catch(SQLException e){
 			e.printStackTrace();
@@ -57,10 +62,22 @@ public class ZamWyrobowManager {
 	
 	public static void wyczyscZamWyrobow(){
 		try{
-			UsunZamWyrobow.executeUpdate();
+			WyczyscZamWyrobow.executeUpdate();
 		} catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public int usunZamWyrobow(Zamowienie z) {
+		int count = 0;
+		try {
+			UsunZamWyrobow.setLong(1, z.getId());
+
+			count = UsunZamWyrobow.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return count;
 	}
 	
 	public static int dodajZamWyrobow(WyrobCukierniczy w, Zamowienie z){
@@ -94,11 +111,11 @@ public class ZamWyrobowManager {
 		return zamWyrobow;
 	}
 	
-	public WyrobCukierniczy getWyrobById(WyrobCukierniczy w) {
+	public WyrobCukierniczy getZWByWyrob(WyrobCukierniczy w) {
 		WyrobCukierniczy wyrob = new WyrobCukierniczy();
 		try {
-			GetWyrobById.setLong(1, w.getId());
-			ResultSet rs = GetWyrobById.executeQuery();
+			GetZWByWyrob.setLong(1, w.getId());
+			ResultSet rs = GetZWByWyrob.executeQuery();
 			rs.next();
 			wyrob.setId(rs.getInt("id_wyrob"));
 			wyrob.setNazwa(rs.getString("nazwa"));
@@ -109,14 +126,14 @@ public class ZamWyrobowManager {
 		return wyrob;
 	}
 	
-	public List<WyrobCukierniczy> getWyrobByZam(ZamWyrobow z) {
+	public List<WyrobCukierniczy> getZWByZam(ZamWyrobow z) {
 		List<WyrobCukierniczy> wyroby = new ArrayList<WyrobCukierniczy>();
 
 		try {
 
-			GetWyrobByZam.setLong(1, z.getZamowienie_id());
+			GetZWByZam.setLong(1, z.getZamowienie_id());
 
-			ResultSet rs = GetWyrobByZam.executeQuery();
+			ResultSet rs = GetZWByZam.executeQuery();
 
 			while (rs.next()) {
 				WyrobCukierniczy w = new WyrobCukierniczy();
@@ -130,5 +147,18 @@ public class ZamWyrobowManager {
 			e.printStackTrace();
 		}
 		return wyroby;
+	}
+	
+	public int updateZamWyrobow(WyrobCukierniczy w, Zamowienie z){
+		int count = 0;
+		try{
+			UpdateZamWyrobow.setLong(1, w.getId());
+			UpdateZamWyrobow.setLong(2, z.getId());
+			
+			count = UpdateZamWyrobow.executeUpdate();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

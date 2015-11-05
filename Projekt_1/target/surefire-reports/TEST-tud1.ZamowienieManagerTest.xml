@@ -62,7 +62,7 @@
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
   <testcase classname="tud1.ZamowienieManagerTest" name="checkAdding" time="0"/>
-  <testcase classname="tud1.ZamowienieManagerTest" name="checkDelete" time="0.016"/>
+  <testcase classname="tud1.ZamowienieManagerTest" name="checkDelete" time="0"/>
   <testcase classname="tud1.ZamowienieManagerTest" name="checkConnection" time="0"/>
-  <testcase classname="tud1.ZamowienieManagerTest" name="checkUpdate" time="0"/>
+  <testcase classname="tud1.ZamowienieManagerTest" name="checkUpdate" time="0.016"/>
 </testsuite>
