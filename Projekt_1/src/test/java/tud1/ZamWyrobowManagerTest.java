@@ -9,15 +9,10 @@ import org.junit.Test;
 
 public class ZamWyrobowManagerTest {
 	ZamWyrobowManager zwManager = new ZamWyrobowManager();
-	WyrobManager wyrobManager = new WyrobManager();
-	ZamowienieManager zamowienieManager = new ZamowienieManager();
 	
-	private final static String nazwa_1 = "piernik";
-	private final static double cena_1 = 8.99;
-	private final static double waga_1 = 0.6;
-	private final static String data_1 = "12-12-2012";
-	
-	private static final double DELTA = 1e-15;
+	private final static Long zamowienie_id = (long) 1;
+	private final static Long wyrob_id = (long) 1;
+	private final static Long wyrob_id2 = (long) 2;
 	
 	@Test
 	public void checkConnection(){
@@ -26,22 +21,30 @@ public class ZamWyrobowManagerTest {
 	
 	@Test
 	public void checkAddZamWyrobow(){
-		WyrobCukierniczy wyrob = new WyrobCukierniczy(nazwa_1, cena_1);
+		ZamWyrobow zw = new ZamWyrobow(zamowienie_id, wyrob_id);
 		
-		wyrobManager.wyczyscWyroby();
-		assertEquals(1, wyrobManager.dodajWyrob(wyrob));
-		
-		List<WyrobCukierniczy> wc = wyrobManager.getWyroby();
-		WyrobCukierniczy wyrobPrzetwarzany = wc.get(0);
-		
-		Zamowienie zamowienie = new Zamowienie(waga_1, data_1);
-		
-		zamowienieManager.wyczyscZamowienia();
-		assertEquals(1,zamowienieManager.dodajZamowienie(zamowienie));
-		
-		List<Zamowienie> zamowienia = zamowienieManager.getZamowienia();
-		Zamowienie zamowieniePrzetwarzane = zamowienia.get(0);
+		zwManager.wyczyscZamWyrobow();
+		assertEquals(1, zwManager.dodajZamWyrobow(zw));
 
-		assertEquals(1, zwManager.dodajZamWyrobow(wyrobPrzetwarzany, zamowieniePrzetwarzane));
+	}
+	
+	@Test
+	public void checkUpdateZamWyrobow(){
+		ZamWyrobow zw = new ZamWyrobow(zamowienie_id, wyrob_id);
+		
+		zwManager.wyczyscZamWyrobow();
+		assertEquals(1, zwManager.dodajZamWyrobow(zw));
+		
+		List<ZamWyrobow> zamWyr = zwManager.getZamWyrobow();
+		ZamWyrobow zamWyrobowPrzetwarzane = zamWyr.get(0);
+		
+		zamWyrobowPrzetwarzane.setWyrob_id(wyrob_id2);
+		
+		assertEquals(1, zwManager.updateZamWyrobow(zamWyrobowPrzetwarzane));
+		
+		List<ZamWyrobow> zw2 = zwManager.getZamWyrobow();
+		ZamWyrobow zamWyrobowPrzetwarzane2 = zw2.get(0);
+
+		assertEquals(1, zwManager.updateZamWyrobow(zamWyrobowPrzetwarzane)); 
 	}
 }

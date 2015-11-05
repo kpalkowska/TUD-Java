@@ -13,7 +13,8 @@ import java.util.List;
 public class ZamWyrobowManager {
 	private static Connection connection;
 	private String url = "jdbc:hsqldb:hsql://localhost/workdb";
-	private String createTableZamWyrobow = "CREATE TABLE ZamWyrobow(zamowienie_id bigint, wyrob_id bigint)";
+	private String createTableZamWyrobow = "CREATE TABLE ZamWyrobow(zamowienie_id bigint FOREIGN KEY REFERENCES Zamowienie(zamowienie_id),"
+			+ " wyrob_id bigint FOREIGN KEY REFERENCES WyrobCukierniczy(id_wyrob))";
 	
 	private static PreparedStatement DodajZamWyrobow;
 	private static PreparedStatement UsunZamWyrobow;
@@ -68,10 +69,10 @@ public class ZamWyrobowManager {
 		}
 	}
 	
-	public int usunZamWyrobow(Zamowienie z) {
+	public int usunZamWyrobow(ZamWyrobow zw) {
 		int count = 0;
 		try {
-			UsunZamWyrobow.setLong(1, z.getId());
+			UsunZamWyrobow.setLong(1, zw.getZamowienie_id());
 
 			count = UsunZamWyrobow.executeUpdate();
 		} catch (SQLException e) {
@@ -80,11 +81,11 @@ public class ZamWyrobowManager {
 		return count;
 	}
 	
-	public static int dodajZamWyrobow(WyrobCukierniczy w, Zamowienie z){
+	public static int dodajZamWyrobow(ZamWyrobow zw){
 		int count = 0;
 		try {
-			DodajZamWyrobow.setLong(1, z.getId());
-			DodajZamWyrobow.setLong(2, w.getId());
+			DodajZamWyrobow.setLong(1, zw.getZamowienie_id());
+			DodajZamWyrobow.setLong(2, zw.getWyrob_id());
 			
 			count = DodajZamWyrobow.executeUpdate();
 		} catch(SQLException e){
@@ -149,11 +150,11 @@ public class ZamWyrobowManager {
 		return wyroby;
 	}
 	
-	public int updateZamWyrobow(WyrobCukierniczy w, Zamowienie z){
+	public int updateZamWyrobow(ZamWyrobow zw){
 		int count = 0;
 		try{
-			UpdateZamWyrobow.setLong(1, w.getId());
-			UpdateZamWyrobow.setLong(2, z.getId());
+			UpdateZamWyrobow.setLong(1, zw.getWyrob_id());
+			UpdateZamWyrobow.setLong(2, zw.getZamowienie_id());
 			
 			count = UpdateZamWyrobow.executeUpdate();
 		}catch(SQLException e){
