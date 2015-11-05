@@ -47,4 +47,14 @@ public class ZamWyrobowManagerTest {
 
 		assertEquals(1, zwManager.updateZamWyrobow(zamWyrobowPrzetwarzane)); 
 	}
+	
+	@Test
+	public void checkDelete(){
+		ZamWyrobow zw = new ZamWyrobow(zamowienie_id, wyrob_id);
+		
+		List<ZamWyrobow> zamWyr = zwManager.getZamWyrobow();
+		ZamWyrobow zamWyrobowPrzetwarzane = zamWyr.get(0);
+		assertEquals(1, zwManager.usunZamWyrobow(zamWyrobowPrzetwarzane));
+
+	}
 }
