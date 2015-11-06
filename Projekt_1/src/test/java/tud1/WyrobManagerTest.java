@@ -64,11 +64,12 @@ WyrobManager wyrobManager = new WyrobManager();
 
 		wyrobManager.wyczyscWyroby();
 		assertEquals(1, wyrobManager.dodajWyrob(wyrob));
+		int n = wyrobManager.getWyroby().size();
 		
 		List<WyrobCukierniczy> wc = wyrobManager.getWyroby();
 		WyrobCukierniczy wyrobPrzetwarzany = wc.get(0);
 
 		assertEquals(1, wyrobManager.usunWyrob(wyrobPrzetwarzany));
-
-	}
+		assertEquals(n-1, wyrobManager.getWyroby().size());
+		}
 }

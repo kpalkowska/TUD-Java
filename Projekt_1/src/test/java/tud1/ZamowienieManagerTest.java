@@ -65,11 +65,13 @@ ZamowienieManager zamowienieManager = new ZamowienieManager();
 		
 		zamowienieManager.wyczyscZamowienia();
 		assertEquals(1,zamowienieManager.dodajZamowienie(zamowienie));
+		int n = zamowienieManager.getZamowienia().size();
 		
 		List<Zamowienie> zamowienia = zamowienieManager.getZamowienia();
 		Zamowienie zamowieniePrzetwarzane = zamowienia.get(0);
 
 		assertEquals(1, zamowienieManager.usunZamowienie(zamowieniePrzetwarzane));
+		assertEquals(n-1, zamowienieManager.getZamowienia().size());
 
 	}
 }

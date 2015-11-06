@@ -10,9 +10,9 @@ import org.junit.Test;
 public class ZamWyrobowManagerTest {
 	ZamWyrobowManager zwManager = new ZamWyrobowManager();
 	
-	private final static Long zamowienie_id = (long) 1;
-	private final static Long wyrob_id = (long) 1;
-	private final static Long wyrob_id2 = (long) 2;
+	private final static Long zamowienie_id = (long) 3;
+	private final static Long wyrob_id = (long) 3;
+	private final static Long wyrob_id2 = (long) 4;
 	
 	@Test
 	public void checkConnection(){
@@ -52,9 +52,14 @@ public class ZamWyrobowManagerTest {
 	public void checkDelete(){
 		ZamWyrobow zw = new ZamWyrobow(zamowienie_id, wyrob_id);
 		
+		zwManager.wyczyscZamWyrobow();
+		assertEquals(1, zwManager.dodajZamWyrobow(zw));
+		int n = zwManager.getZamWyrobow().size();
+		
 		List<ZamWyrobow> zamWyr = zwManager.getZamWyrobow();
 		ZamWyrobow zamWyrobowPrzetwarzane = zamWyr.get(0);
 		assertEquals(1, zwManager.usunZamWyrobow(zamWyrobowPrzetwarzane));
+		assertEquals(n-1, zwManager.getZamWyrobow().size());
 
 	}
 }
