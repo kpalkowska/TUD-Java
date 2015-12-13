@@ -1,3 +1,5 @@
 ## TECHNOLOGIE UTRWALANIA DANYCH DLA JEZYKA JAVA
 
-# Projekt I
+[x] [Projekt I](Projekt_1)
+[x] [Projekt II](Projekt_2)
+
