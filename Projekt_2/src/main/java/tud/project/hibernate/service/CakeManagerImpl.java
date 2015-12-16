@@ -43,7 +43,7 @@ public class CakeManagerImpl implements CakeManager{
 	
 	@Override
 	public void editCake(Cake cake){
-		session.getCurrentSession().merge(cake);
+		session.getCurrentSession().update(cake);
 	}
 	
 	@Override

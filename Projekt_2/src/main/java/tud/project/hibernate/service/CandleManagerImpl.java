@@ -17,6 +17,14 @@ public class CandleManagerImpl implements CandleManager{
 	@Autowired
 	private SessionFactory session;
 	
+	public SessionFactory getSessionFactory(){
+		return session;
+	}
+	
+	public void setSessionFactory(SessionFactory session){
+		this.session = session;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Candle> getAllCandles() {
@@ -28,6 +36,7 @@ public class CandleManagerImpl implements CandleManager{
 		return (Candle) session.getCurrentSession().get(Candle.class, candle.getId());
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Candle> getCandleByColor(String color) {
 		return session.getCurrentSession().getNamedQuery("Candle.getByColor").setString("color", color).list();
@@ -53,7 +62,7 @@ public class CandleManagerImpl implements CandleManager{
 	
 	@Override
 	public void editCandle(Candle candle) {
-		session.getCurrentSession().merge(candle);	
+		session.getCurrentSession().update(candle);
 	}
 
 	@Override
