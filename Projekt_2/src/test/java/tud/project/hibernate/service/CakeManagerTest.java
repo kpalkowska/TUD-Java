@@ -32,6 +32,8 @@ public class CakeManagerTest {
 	@Test
 	public void checkAddCake(){
 		
+		int n = cakeM.getAllCakes().size();
+		
 		Cake cake = new Cake(cake_name, cake_price);
 		cakeM.addCake(cake);
 		
@@ -39,6 +41,8 @@ public class CakeManagerTest {
 		assertEquals(cake.getId(), cakeRetrived.getId());
 		assertEquals(cake_name, cakeRetrived.getName());
 		assertEquals(cake_price, cakeRetrived.getPrice());
+		
+		assertEquals(n+1, cakeM.getAllCakes().size());
 	}
 	
 	@Test
