@@ -3,6 +3,11 @@ package tud.project.hibernate.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +20,7 @@ import tud.project.hibernate.domain.Cake;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/beans.xml"})
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class CakeManagerTest {
 	
@@ -26,8 +31,38 @@ public class CakeManagerTest {
 	
 	private static final double DELTA = 1e-15;
 	
+	private final List<Long> addedCakes = new ArrayList<Long>();
+	
 	@Autowired
 	CakeManager cakeM;
+	
+    @Before
+    public void checkAddedCakes() {
+
+        List<Cake> cakes = cakeM.getAllCakes();
+
+        for(Cake cake : cakes)
+            addedCakes.add(cake.getId());
+    }
+    
+    @After
+    public void removeCakes() {
+
+    	List<Cake> cakes = cakeM.getAllCakes();
+
+        boolean usun;
+
+        for(Cake cake : cakes) {
+            usun = true;
+            for (Long cake2 : addedCakes)
+                if (cake.getId() == cake2) {
+                usun = false;
+                break;
+                }
+            if(usun)
+                cakeM.removeCake(cake);
+        }
+    }
 	
 	@Test
 	public void checkAddCake(){

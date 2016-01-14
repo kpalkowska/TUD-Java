@@ -3,8 +3,11 @@ package tud.project.hibernate.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,7 @@ import tud.project.hibernate.domain.Candle;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/beans.xml"})
-@TransactionConfiguration(transactionManager = "txManager", defaultRollback = true)
+@TransactionConfiguration(transactionManager = "txManager", defaultRollback = false)
 @Transactional
 public class CandleManagerTest {
 
@@ -30,11 +33,58 @@ public class CandleManagerTest {
 	private final String candle_figure2 = "five";
 	private final String candle_color3 = "pink";
 	
+	private final List<Long> addedCakes = new ArrayList<Long>();
+	private final List<Long> addedCandles = new ArrayList<Long>();
+	
 	@Autowired
 	CakeManager cakeM;
 	
 	@Autowired
 	CandleManager candleM;
+	
+    @Before
+    public void checkAdded() {
+
+        List<Cake> cakes = cakeM.getAllCakes();
+        List<Candle> candles = candleM.getAllCandles();
+
+        for(Cake cake : cakes)
+            addedCakes.add(cake.getId());
+
+        for(Candle candle : candles)
+            addedCandles.add(candle.getId());
+    }
+    
+    @After
+    public void removeAll() {
+
+    	List<Cake> cakes = cakeM.getAllCakes();
+    	List<Candle> candles = candleM.getAllCandles();
+    	
+        boolean usun;
+
+        for(Cake cake : cakes) {
+            usun = true;
+            for (Long cake2 : addedCakes)
+                if (cake.getId() == cake2) {
+                usun = false;
+                break;
+                }
+            if(usun)
+                cakeM.removeCake(cake);
+        }
+        
+        for(Candle candle : candles) {
+            usun = true;
+            for (Long candle2 : addedCandles)
+                if (candle.getId() == candle2) {
+                usun = false;
+                break;
+                }
+            if(usun)
+                candleM.removeCandle(candle);
+        }
+    }
 	
 	@Test
 	public void checkAddCandle(){
